@@ -43,14 +43,31 @@ body{
     margin-top: 0px;
 }
 
+input {
+    border: none ;
+    outline: none;
+    width: 590px;
+}
+
 textarea {
     border: none ;
     outline: none;
     resize : none;
+    /*resize: vertical;*/
     font-family: SimHei;
-    font-size: 30px;
     padding-top: 10px;
     width: 590px;
+
+}
+
+#id_headline{
+    font-size: 28px;
+    overflow-y: hidden;
+}
+
+#id_content{
+    font-size: 20px;
+    /*overflow-y:visible;*/
 
 }
 

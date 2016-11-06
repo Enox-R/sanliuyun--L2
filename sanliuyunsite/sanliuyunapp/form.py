@@ -46,3 +46,8 @@ class registerForm(forms.Form):
         error_messages={'required': '请填写密码！'}
 
         )
+
+
+class ArticleForm(forms.Form):
+    headline = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'无标题'}),max_length=40)
+    content = forms.CharField(widget=forms.Textarea(attrs={'rows':'50','placeholder':'请在此输入正文'}))

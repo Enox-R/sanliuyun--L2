@@ -15,24 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-<<<<<<< HEAD
-from sanliuyunapp.views import editor, login
-=======
-from sanliuyunapp.views import registerView,loginView,indexView
->>>>>>> tcudorp/master
+from sanliuyunapp.views import registerView,loginView,indexView, editorView
 from django.contrib.auth.views import logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-<<<<<<< HEAD
-    url(r'^editor', editor, name='editor'),
-    url(r'^logout/$', logout, {'next_page':'/login'}, name='logout'),
-    url(r'^login/$', login, name='login'),
-=======
     url(r'^$', indexView,name='index'),
     url(r'^index$', indexView,name='index'),
     url(r'^register/', registerView,name='register'),
     url(r'^login/', loginView,name='login'),
     url(r'^logout/', logout,{'next_page': '/index'},name='logout'),
->>>>>>> tcudorp/master
+    url(r'^editor', editorView, name='editor'),
 ]

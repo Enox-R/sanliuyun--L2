@@ -18,9 +18,8 @@
 
             </div>
             <div class="item">
-                <a href="#" class="item-black">保存并签出</a>
+                <a href="#" class="item-black" type="submit" onclick="document.forms['articleEditor'].submit();">保存并签出</a>
             </div>
-
 
             <div class="item">
                 <button id="div1" onclick="div1()" type="button" name="button" class="ui basic button">添加成员</button>
@@ -219,8 +218,17 @@
 
         </div>
         <div class="ui container segment inputs">
-            <textarea name="name" rows="150">无标题
-                    </textarea>
+            <form class="articleform" action="" name="articleEditor" id="articleEditor" method="post">
+            <!-- <textarea name="name" rows="150">无标题</textarea> -->
+            {% csrf_token %}
+            {% for field in form  %}
+                <div class="field">
+                    {{ field }}
+                </div>
+            {% endfor %}
+
+            </form>
+
         </div>
 
     </div>
