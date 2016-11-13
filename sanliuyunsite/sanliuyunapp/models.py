@@ -7,15 +7,16 @@ class Person(models.Model):
     email_address = models.EmailField(verbose_name='邮箱')
     nickname = models.CharField(max_length= 12,verbose_name='昵称')
     def __str__(self):
-        return self.email_address
+        return self.nickname
 
 class Article(models.Model):
     author = models.ManyToManyField(to=Person,related_name='article_author')
     headline = models.CharField(max_length= 50,verbose_name='标题')
-    text = models.TextField(verbose_name='编辑文档')
+    text = models.TextField(verbose_name='编辑文档',null = True , blank= True)
     save_time = models.DateTimeField(auto_now=True)#最后保存时间
     local_article = models.FileField(upload_to='localArt',null = True , blank= True , verbose_name='上传本地文档')
     is_write = models.BooleanField(default=False)#是否有成员编辑
+
     font_size_choices = (
     (3,3),
     (5,5),

@@ -1,10 +1,17 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from sanliuyunapp.models import Person
+from sanliuyunapp.models import Person,Article
 
 def word_length(password):
     if len(password)<6 or len(password)>20:
         raise ValidationError('密码字数请设置在6位到20位之间')
+
+
+class uploadArtForm(forms.Form):
+    headline = forms.CharField(max_length=50,label='文章标题')
+    uploadArt= forms.FileField(label='提交文件'
+
+    )
 
 class loginForm(forms.Form):
     inputName = forms.CharField(

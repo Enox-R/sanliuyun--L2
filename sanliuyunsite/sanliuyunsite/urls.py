@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from sanliuyunapp.views import registerView,loginView,indexView, editorView
+from sanliuyunapp.views import registerView,loginView,indexView, editorView,desktopView,deleteArtView,deleteResultView,downloadArtView,uploadView
 from django.contrib.auth.views import logout
 
 urlpatterns = [
@@ -25,5 +25,10 @@ urlpatterns = [
     url(r'^register/', registerView,name='register'),
     url(r'^login/', loginView,name='login'),
     url(r'^logout/', logout,{'next_page': '/index'},name='logout'),
-    url(r'^editor', editorView, name='editor'),
+    url(r'^editor/', editorView, name='editor'),
+    url(r'^desktop/', desktopView, name='desktop'),
+    url(r'^delResult/', deleteResultView, name='delResult'),
+    url(r'^delete/(?P<art_name>\d*$)', deleteArtView, name='deleteArt'),
+    url(r'^download/(?P<art_name>\w+$)', downloadArtView, name='downloadArt'),
+    url(r'^upload$', uploadView,name='upload'),
 ]

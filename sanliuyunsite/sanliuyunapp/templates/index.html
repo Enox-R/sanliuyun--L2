@@ -30,7 +30,7 @@
                       {% else %}
                       <img src="{% static 'images/默认头像.png' %}" alt="" />
                       {% endif %}
-                      <a href="#" style="color:black;font-size:20px;">
+                      <a href="{% url 'desktop' %}" style="color:black;font-size:20px;">
                       Hi~你好,{{request.user.user_profile.nickname}}
 
                       </a>
