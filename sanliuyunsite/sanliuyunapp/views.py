@@ -37,12 +37,12 @@ def downloadArtView(request,art_name):
     headline = art_name
     art = Article.objects.get(headline = art_name)
     content = art.text
-    target = "D:\{}.doc".format(headline)
+    target = "{}.doc".format(headline)
     with open(target,'w') as fs:
         for chunk in content:
             fs.write(chunk)
         fs.close()
-        return HttpResponse('已经导出到D盘根目录')
+        return HttpResponse('已经导出到项目根目录')
     return render(request,'desktop.html',context)
 
 
