@@ -83,8 +83,8 @@
                       {% for article in art %}
                         <tr class="top aligned">
 
-                          <td>{{article.headline}}</td>
-                          <td>
+                          <td style="width:300px">{{article.headline}}</td>
+                          <td style="width:300px">
                           {% for authorName in article.author.all %}
                               {{authorName.nickname}}
                           {% endfor %}

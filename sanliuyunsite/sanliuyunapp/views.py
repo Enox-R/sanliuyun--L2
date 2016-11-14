@@ -161,8 +161,8 @@ def deleteResultView(request):
     return render(request,'deleteResult.html',context)
 
 
+@login_required(redirect_field_name='login',login_url='login')
 def editorView(request):
-
     context = {}
     if request.method == 'GET':
         form = ArticleForm
@@ -171,9 +171,11 @@ def editorView(request):
         if form.is_valid():
             headline = form.cleaned_data['headline']
             content = form.cleaned_data['content']
-            a = Article(headline=headline, text=content)
-            a.save()
-
+            art = Article(headline=headline, text=content)
+            art.save()
+            user_id = request.user.user_profile.id
+            art.author.add(user_id)
+            art.save()
 
     # article = Article.objects.get()
     context['form'] = form
