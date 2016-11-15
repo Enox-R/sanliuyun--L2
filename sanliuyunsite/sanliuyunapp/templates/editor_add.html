@@ -7,7 +7,7 @@
     <title>无标题</title>
     <link rel="stylesheet" href="http://semantic-ui.com/dist/semantic.min.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/editoring.css' %}" media="screen" title="no title" charset="utf-8">
-    <!-- <link rel="stylesheet" href="{% static 'css/popup.css' %}" media="screen" title="no title" charset="utf-8"> -->
+    <link rel="stylesheet" href="{% static 'css/popup.css' %}" media="screen" title="no title" charset="utf-8">
 </head>
 
 <body>
@@ -27,33 +27,45 @@
                 </a>
             </div>
 
-            <!-- 暂时不做弹出框
+            <!-- 暂时不做弹出框 -->
             <div id="div1">
                 <div class="ui tianjiachengyuan segment">
                     <a style="color:black">共享</a>
                     <a style="float:right;color:grey">X</a>
                     <div class="shanchukongge"></div>
-                    <p>成员（1）</p>
-                    <hr>
-                    <a href="#">
-                        <div class="ui image" style="height:30px;width:30px;">
-                            <img src="images/默认头像.png" alt="" />
-                        </div>
-                    </a>
-                    <span>雪吹</span>
-                    <span class="juzhong">example@email.com</span>
-                    <span style="float:right">创建者</span>
+                    <table>
+                        <thead>成员</thead>
+                        <hr>
+                        <tbody>
+                            {% for article in art %}
+                                {% for authorName in article.author.all %}
+                                <tr class="top aligned">
+                                    <td style="width:35px">
+                                        <a href="#">
+                                            <div class="ui image" style="height:30px;width:30px;">
+                                                {% if authorName.avatar %}
+                                                  <img src="/static/uploads/{{authorName.avatar}}">
+                                                {% else %}
+                                                  <img src="{% static 'images/默认头像.png' %}">
+                                                {% endif %}
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td style="width:80px">
+                                        {{authorName.nickname}}
+                                    </td>
+                                    <td>{{authorName.email_address}}</td>
+                                    <td>
+                                        <span style="float:right">协作者</span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
                     <button class="ui black button zuobian">添加成员</button>
                 </div>
-            </div> -->
-
-            <!--<div class="right menu">
-                    <div class="item">
-                        <a href="#" class="ui mini image">
-                            <img src="images/默认头像.png" alt="头像" />
-                        </a>
-                    </div>
-                </div>-->
+            </div>
 
             <div class="right menu">
                 <div class="ui simple dropdown"style="padding-top:5px;position:absolute;right:100px;">

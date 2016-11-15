@@ -183,3 +183,16 @@ def editorView(request):
     editor_page = render(request, 'editoring.html', context)
 
     return editor_page
+
+@login_required(redirect_field_name='login',login_url='login')
+def editorAddView(request):
+    context = {}
+    form = ArticleForm
+    user_id = request.user.id
+    art = Article.objects.filter(author = user_id)
+
+    context['form'] = form
+    context['art'] =art
+    editoradd = render(request, 'editor_add.html', context)
+
+    return editoradd
