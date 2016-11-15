@@ -1,0 +1,93 @@
+body{
+    background-color: #F7F7F7;
+    font-family: SimHei;
+}
+
+
+
+.ui.fixed.vertical.segment.head {
+    background-color: #F7F7F7;
+    font-family: SimHei;
+    /*height: 50px;*/
+}
+
+.item-black {
+    color: black;
+}
+
+
+
+.ui.vertical.basic.segment.content {
+    /*background-color: #F7F7F7;*/
+    font-family: SimHei;
+}
+
+.ui.text.menu.edit-1 {
+    margin-bottom: 0px;
+    margin-top: 20px;
+}
+
+.ui.text.menu.edit-1 > .item {
+    padding: 5px;
+}
+
+.small.dropdown.icon {
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    left: -9px;
+}
+
+.ui.container.segment.inputs {
+    width: 730px;
+    padding: 70px;
+    font-family: SimHei;
+    margin-top: 0px;
+}
+
+input {
+    border: none ;
+    outline: none;
+    width: 590px;
+}
+
+textarea {
+    border: none ;
+    outline: none;
+    resize : none;
+    /*resize: vertical;*/
+    font-family: SimHei;
+    padding-top: 10px;
+    width: 590px;
+
+}
+
+#id_headline{
+    font-size: 28px;
+    overflow-y: hidden;
+}
+
+#id_content{
+    font-size: 20px;
+    /*overflow-y:visible;*/
+
+}
+
+.ui.padded.vertical.basic.segment.footer-1 {
+    background-color: #F7F7F7;
+}
+
+.footer-2 {
+    font-family: SimHei;
+    color: grey;
+    width: 130px;
+    position: relative;
+    transform: translate(-50%,0);
+    left: 50%;
+}
+
+.footer-3 {
+    font-size: 15px;
+    color: black;
+    font-family: SimHei;
+}

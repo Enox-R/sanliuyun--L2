@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'css/zhuye/semantic.css' %}" media="screen" title="no title">
+    <link rel="stylesheet" href="{% static 'css/del.css' %}" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <form class="ui segment" action="" method="post" >
+      {% csrf_token %}
+        <h5>
+          确认要删除这篇文章吗？
+        </h5>
+        <button type="sumbit" name="name" value="确认" class="ui red button">
+          确认
+        </button>
+        <a name="name" value="返回" class="ui button" href="{% url 'desktop' %}">
+          返回
+        </a>
+    </form>
+  </body>
+</html>

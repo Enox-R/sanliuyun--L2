@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>三六云注册</title>
+    <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}" media="screen" title="no title">
+  </head>
+  <body>
+
+    <div class="ui segment contain-body">
+        <div class="ui image-title">
+          <a href="{% url 'index' %}">
+              <img src="{% static 'images\logo.png.png' %}" alt="" />
+          </a>
+        </div>
+        <div class="block-1">
+            <h3 id="tittle">账号注册</h3>
+            <form class="" action="index.html" method="post">
+              {% for forms in form %}
+                <div class="ui fluid input">
+                  {{forms}}
+                </div>
+              {% endfor %}
+              {% csrf_token %}
+                <button class="ui fluid button" id="register-button">注册 </button>
+                <p class="ui center aligned container">或
+                  <a href="{% url 'login' %}">登陆</a>
+                </p>
+            </form>
+        </div>
+
+    </div>
+  </body>
+</html>
+
+<!--
+<div class="ui fluid input">
+  昵称：{{form.username}}
+</div>
+<div class="ui fluid input register">
+  密码：{{form.password1}}
+</div>
+<div class="ui fluid input register">
+  密码：{{form.password1}}
+</div>
+<div class="ui fluid input">
+  <input type="text" placeholder="昵称" id="register" >
+</div>
+<p></p>
+<div class="ui fluid input register" >
+  <input type="text" placeholder="登陆邮箱" id="register">
+</div>
+<p></p>
+<div class="ui fluid input register">
+  <input type="text" placeholder="密码（6-20位字母或数字）" id="register">
+</div>
+-->
