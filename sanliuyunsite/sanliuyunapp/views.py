@@ -35,7 +35,7 @@ def downloadArtView(request,art_name):
     context = {}
     user_id = request.user.id
     headline = art_name
-    art = Article.objects.get(headline = art_name)
+    art = Article.objects.get(id = art_name)
     content = art.text
     target = "{}.doc".format(headline)
     with open(target,'w') as fs:

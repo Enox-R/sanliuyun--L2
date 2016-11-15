@@ -93,7 +93,7 @@
                           <td>
                               <a href="#"class="xue">编辑</a>
                               <a href="{% url 'deleteArt' article.id %}"class="xue">删除</a>
-                              <a href="{% url 'downloadArt' article.headline %}"class="xue">导出</a>
+                              <a href="{% url 'downloadArt' article.id %}"class="xue">导出</a>
                           </td>
                         </tr>
                         {% endfor %}
