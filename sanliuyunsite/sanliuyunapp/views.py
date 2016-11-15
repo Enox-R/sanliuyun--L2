@@ -37,12 +37,12 @@ def downloadArtView(request,art_name):
     headline = art_name
     art = Article.objects.get(headline = art_name)
     content = art.text
-    target = "D:\{}.doc".format(headline)
+    target = "{}.doc".format(headline)
     with open(target,'w') as fs:
         for chunk in content:
             fs.write(chunk)
         fs.close()
-        return HttpResponse('已经导出到D盘根目录')
+        return HttpResponse('已经导出到项目根目录')
     return render(request,'desktop.html',context)
 
 
@@ -161,8 +161,8 @@ def deleteResultView(request):
     return render(request,'deleteResult.html',context)
 
 
+@login_required(redirect_field_name='login',login_url='login')
 def editorView(request):
-
     context = {}
     if request.method == 'GET':
         form = ArticleForm
@@ -171,9 +171,11 @@ def editorView(request):
         if form.is_valid():
             headline = form.cleaned_data['headline']
             content = form.cleaned_data['content']
-            a = Article(headline=headline, text=content)
-            a.save()
-
+            art = Article(headline=headline, text=content)
+            art.save()
+            user_id = request.user.user_profile.id
+            art.author.add(user_id)
+            art.save()
 
     # article = Article.objects.get()
     context['form'] = form
