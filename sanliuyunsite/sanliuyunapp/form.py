@@ -8,10 +8,7 @@ def word_length(password):
 
 
 class uploadArtForm(forms.Form):
-    headline = forms.CharField(max_length=50,label='文章标题')
-    uploadArt= forms.FileField(label='提交文件'
-
-    )
+    uploadArt= forms.FileField(label='提交文件')
 
 class loginForm(forms.Form):
     inputName = forms.CharField(

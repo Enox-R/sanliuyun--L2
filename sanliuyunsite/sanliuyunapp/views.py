@@ -7,7 +7,7 @@ from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.http import HttpResponse,StreamingHttpResponse
 from sanliuyunapp.form import registerForm,loginForm, ArticleForm,uploadArtForm
 from sanliuyunapp.models import Person, Article
-
+from django.core.exceptions import ObjectDoesNotExist
 
 def indexView(request):
     context = {}
@@ -21,12 +21,22 @@ def uploadView(request):
         form = uploadArtForm(request.POST,request.FILES)
         if form.is_valid():
             user_id = request.user.user_profile.id
-            headline = form.cleaned_data['headline']
             upload_art = request.FILES['uploadArt']
+            headline = upload_art.name.split('.')[0]
             art = Article(headline = headline,local_article=upload_art)
             art.save()
             art.author.add(user_id)
             art.save()
+            try:
+                target = "sanliuyunapp/static/uploads/localArt/{}".format(upload_art.name)
+                with open(target,'r') as fs:
+                    text = fs.read()
+            except FileNotFoundError:
+                return HttpResponse('文件名不能包含空格，点等特殊字符')
+            fs.close()
+            art.text = text
+            art.save()
+
             return redirect(to='desktop')
     context['form'] = form
     return render(request,'upload.html',context)
@@ -115,17 +125,16 @@ def registerView(request):
         if form.is_valid():
             nickname = form.cleaned_data['nickname']
             email_address = form.cleaned_data['email_address']
-            if nickname ==email_address:
-                return HttpResponse('昵称和邮箱地址不能一样哦~')
             try:
+                email_judge= Person.objects.get(email_address = email_address )
+                if email_judge:
+                    return HttpResponse('邮箱重复了~')
                 nickname_judge = Person.objects.get(nickname = nickname )
                 if nickname_judge:
                     return HttpResponse('用户名重复了~')
             except:
-                email_judge= Person.objects.get(email_address = email_address )
-                if email_judge:
-                    return HttpResponse('邮箱重复了~')
-            ##判断是否邮箱已经存在
+                if nickname ==email_address:
+                    return HttpResponse('昵称和邮箱地址不能一样哦~')
                 password1 = form.cleaned_data['password1']
                 password2 = form.cleaned_data['password2']
                 if password1 == password2:
