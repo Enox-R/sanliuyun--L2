@@ -19,7 +19,7 @@
                             <p style="font-size: 20px;"><i class="plus icon"></i>新建 / 导入</p>
                         </h5>
                         <div class="menu">
-                          <a href="{% url 'editor' %} " class="item"  style="height:44px">
+                          <a href="{% url 'editorNew' %} " class="item"  style="height:44px">
                             <div class="item" style="color:black;  font-size: 15px;font-family: SimHei" ><i class="file icon"></i>
                                 新建文档
                             </div>
@@ -91,7 +91,7 @@
                           </td>
                           <td>{{article.save_time|date:'Y-m-d H:m:s'}}</td>
                           <td>
-                              <a href="#"class="xue">编辑</a>
+                              <a href="{% url 'editor' article.id %}"class="xue">编辑</a>
                               <a href="{% url 'deleteArt' article.id %}"class="xue">删除</a>
                               <a href="{% url 'downloadArt' article.id %}"class="xue">导出</a>
                           </td>

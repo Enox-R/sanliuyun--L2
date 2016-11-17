@@ -171,7 +171,7 @@ def deleteResultView(request):
 
 
 @login_required(redirect_field_name='login',login_url='login')
-def editorView(request):
+def editorView(request,art_name):
     context = {}
     if request.method == 'GET':
         form = ArticleForm
@@ -185,23 +185,45 @@ def editorView(request):
             user_id = request.user.user_profile.id
             art.author.add(user_id)
             art.save()
+            return redirect(to='editorAdd')
 
-    # article = Article.objects.get()
+    article = Article.objects.get(id=art_name)
+    context['form'] = form
+    context['article'] = article
+
+    return render(request, 'editoring.html', context)
+
+@login_required(redirect_field_name='login',login_url='login')
+def editorNewView(request):
+    context = {}
+    if request.method == 'GET':
+        form = ArticleForm
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            headline = form.cleaned_data['headline']
+            content = form.cleaned_data['content']
+            art = Article(headline=headline, text=content)
+            art.save()
+            user_id = request.user.user_profile.id
+            art.author.add(user_id)
+            art.save()
+            return redirect(to='editorAdd')
+
+    # article = Article.objects.get(id=art_name)
     context['form'] = form
     # context['article'] = article
-    editor_page = render(request, 'editoring.html', context)
 
-    return editor_page
+    return render(request, 'editor_new.html', context)
 
 @login_required(redirect_field_name='login',login_url='login')
 def editorAddView(request):
     context = {}
     form = ArticleForm
     user_id = request.user.id
-    art = Article.objects.filter(author = user_id)
+    # art = Article.objects.get(id=art_name)
 
     context['form'] = form
-    context['art'] =art
-    editoradd = render(request, 'editor_add.html', context)
+    # context['art'] =art
 
-    return editoradd
+    return render(request, 'editor_add.html', context)
