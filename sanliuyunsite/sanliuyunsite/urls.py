@@ -26,7 +26,6 @@ urlpatterns = [
     url(r'^login/', loginView,name='login'),
     url(r'^logout/', logout,{'next_page': '/index'},name='logout'),
     url(r'^editor/', editorView, name='editor'),
-    # url(r'^editor/(?P<art_name>\d+)$', editorView, name='editor'),
     url(r'^editoradd/', editorAddView, name='editorAdd'),
     url(r'^desktop/', desktopView, name='desktop'),
     url(r'^delResult/', deleteResultView, name='delResult'),
