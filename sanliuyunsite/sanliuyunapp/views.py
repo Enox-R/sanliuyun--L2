@@ -185,7 +185,7 @@ def editorView(request,art_name):
             user_id = request.user.user_profile.id
             art.author.add(user_id)
             art.save()
-            return redirect(to='editorAdd')
+            return redirect(to='editorAdd',art_name=art_name)
 
     article = Article.objects.get(id=art_name)
     context['form'] = form
@@ -208,7 +208,8 @@ def editorNewView(request):
             user_id = request.user.user_profile.id
             art.author.add(user_id)
             art.save()
-            return redirect(to='editorAdd')
+            a = art.id
+            return redirect(to='editorAdd',art_name=a)
 
     # article = Article.objects.get(id=art_name)
     context['form'] = form
@@ -217,13 +218,13 @@ def editorNewView(request):
     return render(request, 'editor_new.html', context)
 
 @login_required(redirect_field_name='login',login_url='login')
-def editorAddView(request):
+def editorAddView(request,art_name):
     context = {}
     form = ArticleForm
     user_id = request.user.id
-    # art = Article.objects.get(id=art_name)
+    article = Article.objects.get(id=art_name)
 
     context['form'] = form
-    # context['art'] =art
+    context['article'] =article
 
     return render(request, 'editor_add.html', context)
