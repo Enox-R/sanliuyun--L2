@@ -22,7 +22,7 @@
             </div>
 
             <div class="item">
-                <!-- <a href="{% url 'editorAdd' %}" onclick="document.forms['articleEditor'].submit();"> -->
+                <!-- <a href="#" onclick="document.forms['articleEditor'].submit();"> -->
                     <button id="div1" onclick="div1()" type="button" name="button" class="ui basic button">添加成员</button>
                 <!-- </a> -->
             </div>
@@ -37,8 +37,7 @@
                         <thead>成员</thead>
                         <hr>
                         <tbody>
-                            {% for article in art %}
-                                {% for authorName in article.author.all %}
+                            {% for authorName in article.author.all %}
                                 <tr class="top aligned">
                                     <td style="width:35px">
                                         <a href="#">
@@ -59,7 +58,6 @@
                                         <span style="float:right">协作者</span>
                                     </td>
                                 </tr>
-                                {% endfor %}
                             {% endfor %}
                         </tbody>
 
@@ -247,12 +245,12 @@
         <div class="ui container segment inputs">
             <form class="articleform" action="" name="articleEditor" id="articleEditor" method="post">
             <!-- <textarea name="name" rows="150">无标题</textarea> -->
-            {% csrf_token %}
-            {% for field in form  %}
+
                 <div class="field">
-                    {{ field }}
+                    <input id="id_headline" maxlength="40" name="headline" placeholder="" type="text" required="" value="{{article.headline}}">
+
+                    <textarea cols="40" id="id_content" name="content" placeholder="请在此输入正文" rows="50" required="">{{article.text}}</textarea>
                 </div>
-            {% endfor %}
 
             </form>
 
