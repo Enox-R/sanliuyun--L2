@@ -13,6 +13,27 @@ def indexView(request):
     context = {}
     return render(request,'index.html',context)
 
+def editorArtView(request,art_name):
+    context = {}
+    if request.method == 'GET':
+        art = Article.objects.get(id = art_name)
+        form = ArticleForm(
+        initial={'headline':art.headline,'content':art.text}
+        )
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            headline = form.cleaned_data['headline']
+            content = form.cleaned_data['content']
+            art = Article(headline=headline, text=content)
+            art.save()
+            user_id = request.user.user_profile.id
+            art.author.add(user_id)
+            art.save()
+            return redirect('desktop')
+    context['form']=form
+    return render(request,'editoring.html',context)
+
 def uploadView(request):
     context = {}
     if request.method == 'GET':
@@ -60,7 +81,8 @@ def downloadArtView(request,art_name):
 @login_required(redirect_field_name='login',login_url='login')
 def desktopView(request):
     context = {}
-    user_id = request.user.id
+    user_id = request.user.user_profile.id
+    print(user_id)
     art = Article.objects.filter(author = user_id).order_by('-save_time')
     page_robot = Paginator(art,15)
     page_num = request.GET.get('page')
@@ -138,7 +160,7 @@ def registerView(request):
                 password1 = form.cleaned_data['password1']
                 password2 = form.cleaned_data['password2']
                 if password1 == password2:
-                    new_Person = User.objects.create_user(username =nickname,password = password2)
+                    new_Person = User.objects.create_superuser(username =nickname,password = password2,email=email_address)
                     new_Person.save()
                     person = Person(belong_to= new_Person,nickname=nickname,email_address= email_address)
                     person.save()
@@ -172,6 +194,7 @@ def deleteResultView(request):
 
 @login_required(redirect_field_name='login',login_url='login')
 def editorView(request,art_name):
+<<<<<<< HEAD
     context = {}
     if request.method == 'GET':
         form = ArticleForm
@@ -185,6 +208,36 @@ def editorView(request,art_name):
             user_id = request.user.user_profile.id
             art.author.add(user_id)
             art.save()
+            return redirect(to='editorAdd',art_name=art_name)
+
+    article = Article.objects.get(id=art_name)
+    context['form'] = form
+    context['article'] = article
+
+    return render(request, 'editoring.html', context)
+
+@login_required(redirect_field_name='login',login_url='login')
+def editorNewView(request):
+=======
+>>>>>>> origin/master
+    context = {}
+    if request.method == 'GET':
+        form = ArticleForm
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            headline = form.cleaned_data['headline']
+            content = form.cleaned_data['content']
+            art = Article(headline=headline, text=content)
+            art.save()
+            user_id = request.user.user_profile.id
+            art.author.add(user_id)
+            art.save()
+<<<<<<< HEAD
+            a = art.id
+            return redirect(to='editorAdd',art_name=a)
+
+=======
             return redirect(to='editorAdd',art_name=art_name)
 
     article = Article.objects.get(id=art_name)
@@ -211,6 +264,7 @@ def editorNewView(request):
             a = art.id
             return redirect(to='editorAdd',art_name=a)
 
+>>>>>>> origin/master
     # article = Article.objects.get(id=art_name)
     context['form'] = form
     # context['article'] = article

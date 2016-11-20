@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+<<<<<<< HEAD
+from sanliuyunapp.views import registerView,loginView,indexView, editorView,desktopView,deleteArtView,deleteResultView,downloadArtView,uploadView,editorNewView,editorAddView,editorArtView
+=======
 from sanliuyunapp.views import registerView,loginView,indexView, editorView,desktopView,deleteArtView,deleteResultView,downloadArtView,uploadView,editorNewView,editorAddView
+>>>>>>> origin/master
 from django.contrib.auth.views import logout
 
 urlpatterns = [
@@ -28,6 +32,11 @@ urlpatterns = [
     # url(r'^editor/', editorView, name='editor'),
     url(r'^editor/(?P<art_name>\d+)$', editorView, name='editor'),
     url(r'^editornew/', editorNewView, name='editorNew'),
+<<<<<<< HEAD
+    url(r'^editorArt/(?P<art_name>\d*$)', editorArtView, name='editorArt'),
+
+=======
+>>>>>>> origin/master
     # url(r'^editornew/(?P<art_name>\d+)$', editorNewView, name='editorNew'),
     # url(r'^editoradd/', editorAddView, name='editorAdd'),
     url(r'^editoradd/(?P<art_name>\d+)$', editorAddView, name='editorAdd'),
