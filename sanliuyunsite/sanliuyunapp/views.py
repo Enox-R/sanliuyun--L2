@@ -13,27 +13,6 @@ def indexView(request):
     context = {}
     return render(request,'index.html',context)
 
-def editorArtView(request,art_name):
-    context = {}
-    if request.method == 'GET':
-        art = Article.objects.get(id = art_name)
-        form = ArticleForm(
-        initial={'headline':art.headline,'content':art.text}
-        )
-    if request.method == 'POST':
-        form = ArticleForm(request.POST)
-        if form.is_valid():
-            headline = form.cleaned_data['headline']
-            content = form.cleaned_data['content']
-            art = Article(headline=headline, text=content)
-            art.save()
-            user_id = request.user.user_profile.id
-            art.author.add(user_id)
-            art.save()
-            return redirect('desktop')
-    context['form']=form
-    return render(request,'editoring.html',context)
-
 def uploadView(request):
     context = {}
     if request.method == 'GET':
@@ -194,16 +173,21 @@ def deleteResultView(request):
 
 @login_required(redirect_field_name='login',login_url='login')
 def editorView(request,art_name):
-<<<<<<< HEAD
     context = {}
     if request.method == 'GET':
-        form = ArticleForm
+        art = Article.objects.get(id = art_name)
+        form = ArticleForm(
+        initial={'headline':art.headline,'content':art.text}
+        )
     if request.method == 'POST':
         form = ArticleForm(request.POST)
         if form.is_valid():
-            headline = form.cleaned_data['headline']
-            content = form.cleaned_data['content']
-            art = Article(headline=headline, text=content)
+            # headline = form.cleaned_data['headline']
+            # content = form.cleaned_data['content']
+            # art = artold(headline=headline, text=content)
+            art = Article.objects.get(id = art_name)
+            art.headline = form.cleaned_data['headline']
+            art.text = form.cleaned_data['content']
             art.save()
             user_id = request.user.user_profile.id
             art.author.add(user_id)
@@ -216,35 +200,26 @@ def editorView(request,art_name):
 
     return render(request, 'editoring.html', context)
 
-@login_required(redirect_field_name='login',login_url='login')
-def editorNewView(request):
-=======
->>>>>>> origin/master
-    context = {}
-    if request.method == 'GET':
-        form = ArticleForm
-    if request.method == 'POST':
-        form = ArticleForm(request.POST)
-        if form.is_valid():
-            headline = form.cleaned_data['headline']
-            content = form.cleaned_data['content']
-            art = Article(headline=headline, text=content)
-            art.save()
-            user_id = request.user.user_profile.id
-            art.author.add(user_id)
-            art.save()
-<<<<<<< HEAD
-            a = art.id
-            return redirect(to='editorAdd',art_name=a)
-
-=======
-            return redirect(to='editorAdd',art_name=art_name)
-
-    article = Article.objects.get(id=art_name)
-    context['form'] = form
-    context['article'] = article
-
-    return render(request, 'editoring.html', context)
+# def editorArtView(request,art_name):
+#     context = {}
+#     if request.method == 'GET':
+#         art = Article.objects.get(id = art_name)
+#         form = ArticleForm(
+#         initial={'headline':art.headline,'content':art.text}
+#         )
+#     if request.method == 'POST':
+#         form = ArticleForm(request.POST)
+#         if form.is_valid():
+#             headline = form.cleaned_data['headline']
+#             content = form.cleaned_data['content']
+#             art = Article(headline=headline, text=content)
+#             art.save()
+#             user_id = request.user.user_profile.id
+#             art.author.add(user_id)
+#             art.save()
+#             return redirect('desktop')
+#     context['form']=form
+#     return render(request,'editoring.html',context)
 
 @login_required(redirect_field_name='login',login_url='login')
 def editorNewView(request):
@@ -264,7 +239,6 @@ def editorNewView(request):
             a = art.id
             return redirect(to='editorAdd',art_name=a)
 
->>>>>>> origin/master
     # article = Article.objects.get(id=art_name)
     context['form'] = form
     # context['article'] = article
@@ -274,7 +248,10 @@ def editorNewView(request):
 @login_required(redirect_field_name='login',login_url='login')
 def editorAddView(request,art_name):
     context = {}
-    form = ArticleForm
+    art = Article.objects.get(id = art_name)
+    form = ArticleForm(
+    initial={'headline':art.headline,'content':art.text}
+    )
     user_id = request.user.id
     article = Article.objects.get(id=art_name)
 
