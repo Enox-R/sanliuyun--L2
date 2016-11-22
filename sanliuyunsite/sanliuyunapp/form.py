@@ -44,13 +44,20 @@ class registerForm(forms.Form):
     )
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs  = {'placeholder':'确认密码'}),
-        max_length=25,
+        max_length=10,
         validators = [word_length],
         label = '确认密码',
         error_messages={'required': '请填写密码！'}
 
         )
 
+class addForm(forms.Form):
+    addName = forms.CharField(
+    widget=forms.TextInput(attrs={'id':'addusers','margin-top':'5px','placeholder':'昵称/邮箱地址'}),
+    max_length=25,
+    label='昵称/邮箱地址',
+    # error_messages={'required': '昵称/邮箱地址不能为空哦~'}
+    )
 
 class ArticleForm(forms.Form):
     headline = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'无标题'}),max_length=40)
