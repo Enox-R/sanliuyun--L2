@@ -45,12 +45,6 @@ body{
     margin-top: 0px;
 }
 
-input {
-    border: none ;
-    outline: none;
-    width: 590px;
-}
-
 textarea {
     border: none ;
     outline: none;
@@ -63,6 +57,9 @@ textarea {
 }
 
 #id_headline{
+    border: none ;
+    outline: none;
+    width: 590px;
     font-size: 28px;
     overflow-y: hidden;
 }
