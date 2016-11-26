@@ -6,15 +6,36 @@
     <title></title>
   </head>
   <link rel="stylesheet" href="{% static 'css/zhuye/semantic.css' %}" media="screen" title="no title">
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" media="screen" title="no title">
   <body>
-    <form class="" action="" method="post" enctype="multipart/form-data">
-      {{form}}
-      {% csrf_token %}
-      <div class="">
-        <button type="submit" name="button"  class="ui grey button">提交</button>
-      </div>
-    </form>
+    <div class="ui segment contain-body">
+        <div class="ui image-title">
+            <a href="{% url 'index' %}">
+                <img src="{% static 'images\logo.png.png' %}" alt="" />
+            </a>
+        </div>
 
+        <div class="block-1">
+          <form class="" action="" method="post" enctype="multipart/form-data">
+            {% for field in form %}
+                <div class="ui fluid action input">
+                    {{ field }}
+                  <button type="submit" name="button"  class="ui grey button">提交</button>
+                </div>
 
+            {% endfor %}
+
+            {% csrf_token %}
+          </form>
+
+          <div class="ui basic center aligned segment" style="margin-top:50px;">
+            <a href="{% url 'desktop' %}">
+              <button class="ui blue circular button">返回</button>
+            </a>
+          </div>
+
+        </div>
+
+    </div>
   </body>
 </html>

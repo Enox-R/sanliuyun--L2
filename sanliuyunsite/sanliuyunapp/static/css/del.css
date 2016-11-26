@@ -1,4 +1,11 @@
-form{
-  height:500px;
-  width:500px;
+
+.block-1{
+  box-sizing: border-box;
+  width: 296px;
+  font-size: 14px;
+  transform: translate(-50%,-50%);
+  position: relative;
+  left: 50%;
+  top: 50%;
+  font-family: SimHei;
 }

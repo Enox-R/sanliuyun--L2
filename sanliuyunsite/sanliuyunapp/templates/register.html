@@ -18,17 +18,29 @@
         <div class="block-1">
             <h3 id="tittle">账号注册</h3>
             <form class="" action="index.html" method="post">
-              {% for forms in form %}
-                <div class="ui fluid input">
-                  {{forms}}
-                </div>
-              {% endfor %}
-              {% csrf_token %}
+                {% for field in form  %}
+                    {% if field.errors %}
+                      <div class="ui fluid error input" style="margin-bottom:8px;">
+                          {{ field }}
+                      </div>
+                      <div class="ui error message">
+                          {{ field.errors }}
+                      </div>
+                    {% else %}
+                      <div class="ui fluid input" style="margin-bottom:8px;">
+                          {{ field }}
+                      </div>
+                    {% endif %}
+                {% endfor %}
+
+                {% csrf_token %}
+
                 <button class="ui fluid button" id="register-button">注册 </button>
                 <p class="ui center aligned container">或
                   <a href="{% url 'login' %}">登陆</a>
                 </p>
             </form>
+
         </div>
 
     </div>

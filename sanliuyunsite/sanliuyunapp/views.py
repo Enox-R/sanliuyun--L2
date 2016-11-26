@@ -7,7 +7,7 @@ from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.http import HttpResponse,StreamingHttpResponse
 from sanliuyunapp.form import registerForm,loginForm, ArticleForm,uploadArtForm
 from sanliuyunapp.models import Person, Article
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist,ValidationError
 
 def indexView(request):
     context = {}
@@ -97,23 +97,19 @@ def loginView(request):
         if form.is_valid():
             inputName = form.cleaned_data['inputName']
             password = form.cleaned_data['password']
-            try:
+            user = authenticate(username =inputName,password = password)
+            if user:
+                login(request,user)
+                return redirect(to = 'index')
+            else:
+                person = Person.objects.get(email_address = inputName)
+                inputName = person.nickname
                 user = authenticate(username =inputName,password = password)
-                if user:
-                    login(request,user)
-                    return redirect(to = 'index')
-                else:
-                    person = Person.objects.get(email_address = inputName)
-                    inputName = person.nickname
-                    user = authenticate(username =inputName,password = password)
-                    if user:
-                        login(request,user)
-                        return redirect(to = 'index')
-                    else:
-                        return HttpResponse('用户名/密码错误')
-            except Person.DoesNotExist:
-                return HttpResponse('用户名不存在')
+                login(request,user)
+                return redirect(to = 'index')
+
             return redirect(to = 'index')
+
     context['form']= form
     return render(request,'login.html',context)
 
@@ -124,31 +120,19 @@ def registerView(request):
     if request.method == 'POST':
         form = registerForm(request.POST)
         if form.is_valid():
+            password2 = form.cleaned_data['password2']
             nickname = form.cleaned_data['nickname']
             email_address = form.cleaned_data['email_address']
-            try:
-                email_judge= Person.objects.get(email_address = email_address )
-                if email_judge:
-                    return HttpResponse('邮箱重复了~')
-                nickname_judge = Person.objects.get(nickname = nickname )
-                if nickname_judge:
-                    return HttpResponse('用户名重复了~')
-            except:
-                if nickname ==email_address:
-                    return HttpResponse('昵称和邮箱地址不能一样哦~')
-                password1 = form.cleaned_data['password1']
-                password2 = form.cleaned_data['password2']
-                if password1 == password2:
-                    new_Person = User.objects.create_superuser(username =nickname,password = password2,email=email_address)
-                    new_Person.save()
-                    person = Person(belong_to= new_Person,nickname=nickname,email_address= email_address)
-                    person.save()
-                    user = authenticate(username =nickname,password = password2)
-                    if user:
-                        login(request,user)
-                        return redirect(to = 'index')
-                else:
-                    return HttpResponse('2次密码不同，请重新输入')
+
+            new_Person = User.objects.create_user(username=nickname,email=email_address,password = password2)
+            new_Person.save()
+            person = Person(belong_to= new_Person,nickname=nickname,email_address= email_address)
+            person.save()
+            user = authenticate(username =nickname,password = password2)
+            login(request,user)
+            return redirect(to = 'index')
+
+
     context['form']= form
     return render(request,'register.html',context)
 
@@ -160,7 +144,7 @@ def deleteArtView(request,art_name):
             pass
         if request.method == 'POST':
             art.delete()
-            return redirect('delResult')
+            return redirect('desktop')
 
     except:
         return HttpResponse('页面已经删除了~')
