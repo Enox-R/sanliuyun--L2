@@ -19,14 +19,24 @@
         <div class="block-1">
             <h3 id="tittle">登录</h3>
             <form class="" action="index.html" method="post">
-              {% for forms in form %}
-                <div class="ui fluid input">
-                  {{forms}}
-                  {% csrf_token %}
-                </div>
+              {% for field in form  %}
+                  {% if field.errors %}
+                    <div class="ui fluid error input" style="margin-bottom:8px;">
+                        {{ field }}
+                    </div>
+                    <div class="ui error message">
+                        {{ field.errors }}
+                    </div>
+                  {% else %}
+                    <div class="ui fluid input" style="margin-bottom:8px;">
+                        {{ field }}
+                    </div>
+                  {% endif %}
               {% endfor %}
-              <button class="ui fluid button" id="login-button">登录</button>
-            </form>
+
+              {% csrf_token %}
+            <button class="ui fluid button" id="login-button">登录</button>
+          </form>
             <p class="ui center aligned container">或
               <a href="{% url 'register' %}">注册</a>
             </p>
