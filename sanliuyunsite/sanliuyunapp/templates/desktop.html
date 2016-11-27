@@ -83,14 +83,19 @@
                       {% for article in art %}
                         <tr class="top aligned">
 
-                          <td style="width:300px">{{article.headline}}</td>
+                          <td style="width:400px">{{article.headline}}</td>
                           <td style="width:300px">
-                          {% for authorName in article.author.all %}
-                              {{authorName.nickname}}
-                          {% endfor %}
+                            {% for authorName in article.author.all %}
+                              {% if forloop.counter < 4 %}
+                                {{authorName}}
+                              {% endif %}
+                              {% if forloop.counter == 4 %}
+                                等
+                              {% endif %}
+                            {% endfor %}
                           </td>
-                          <td>{{article.save_time|date:'Y-m-d H:m:s'}}</td>
-                          <td>
+                          <td style="width:200px">{{article.save_time|date:'Y-m-d H:m:s'}}</td>
+                          <td style="width:150px">
                               <a href="{% url 'editor' article.id %}"class="xue">编辑</a>
                               <a href="{% url 'deleteArt' article.id %}"class="xue">删除</a>
                               <a href="{% url 'downloadArt' article.id %}"class="xue">导出</a>

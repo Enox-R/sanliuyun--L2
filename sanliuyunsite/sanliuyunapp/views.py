@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.http import HttpResponse,StreamingHttpResponse
-from sanliuyunapp.form import registerForm,loginForm, ArticleForm,uploadArtForm
+from sanliuyunapp.form import registerForm,loginForm, ArticleForm,uploadArtForm,addForm
 from sanliuyunapp.models import Person, Article
 from django.core.exceptions import ObjectDoesNotExist,ValidationError
 
@@ -136,14 +136,38 @@ def registerView(request):
     context['form']= form
     return render(request,'register.html',context)
 
+@login_required(redirect_field_name='login',login_url='login')
 def deleteArtView(request,art_name):
     context = {}
     try:
-        art = Article.objects.get(id = art_name)
+        art_del = Article.objects.get(id = art_name)
         if request.method == 'GET':
-            pass
+            user_id = request.user.user_profile.id
+            art = Article.objects.filter(author = user_id).order_by('-save_time')
+            page_robot = Paginator(art,15)
+            page_num = request.GET.get('page')
+            if page_num:
+                page = int(page_num)
+            else:
+                page = 1#不加index 跳转进来会报错
+            try:
+                art = page_robot.page(page_num)
+            except EmptyPage:
+                art = page_robot.page(page_robot.num_pages)
+            except PageNotAnInteger:
+                art = page_robot.page(1)
+            if page == int(page_robot.num_pages):
+                page_range = page_robot.page_range[page-5:page_robot.num_pages]
+            elif page == int(page_robot.num_pages)-1:
+                page_range = page_robot.page_range[page-4:page_robot.num_pages+1]
+            elif page <= 2:
+                page_range = page_robot.page_range[0:5-page+page]
+            else:
+                page_range = page_robot.page_range[page-3 :page+2]
+            context['art'] =art
+            context['page_range'] =page_range
         if request.method == 'POST':
-            art.delete()
+            art_del.delete()
             return redirect('desktop')
 
     except:
@@ -232,14 +256,34 @@ def editorNewView(request):
 @login_required(redirect_field_name='login',login_url='login')
 def editorAddView(request,art_name):
     context = {}
-    art = Article.objects.get(id = art_name)
-    form = ArticleForm(
-    initial={'headline':art.headline,'content':art.text}
-    )
-    user_id = request.user.id
-    article = Article.objects.get(id=art_name)
+    if request.method == 'GET':
+        form = addForm
+        art = Article.objects.get(id = art_name)
+    if request.method == 'POST':
+        form = addForm(request.POST)
+        art = Article.objects.get(id = art_name)
+        if form.is_valid():
+            adduser = form.cleaned_data['addName']
+            try:
+                user_judge1 = Person.objects.get(nickname = adduser)
+
+                if user_judge1:
+                    user_id = user_judge1.id
+                    art.author.add(user_id)
+                    art.save()
+            except:
+                try:
+                    user_judge2 = Person.objects.get(email_address = adduser)
+                    if user_judge2:
+                        user_id = user_judge2.id
+                        art.author.add(user_id)
+                        art.save()
+                except:
+                    return HttpResponse('用户名/邮箱不存在')
+
+    # user_id = request.user.id
 
     context['form'] = form
-    context['article'] =article
+    context['art'] =art
 
     return render(request, 'editor_add.html', context)

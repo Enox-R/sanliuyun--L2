@@ -103,7 +103,6 @@ class registerForm(forms.Form):
             self.add_error('password2', ValidationError(u'两次密码不一样哦～'))
 
 
-
 class addForm(forms.Form):
     addName = forms.CharField(
     widget=forms.TextInput(attrs={'id':'addusers','margin-top':'5px','placeholder':'昵称/邮箱地址'}),

@@ -14,7 +14,7 @@
     <div class="ui fixed vertical basic segment head">
         <div class="ui fixed borderless menu headmenu" style="height:50px;">
             <div class="item">
-                <a href="{% url 'editor' article.id %}" class="item-black"><i class="angle left icon"></i>返回</a>
+                <a href="{% url 'editor' art.id %}" class="item-black"><i class="angle left icon"></i>返回</a>
 
             </div>
             <div class="item">
@@ -32,12 +32,30 @@
                 <div class="ui tianjiachengyuan segment">
                     <a style="color:black">共享</a>
                     <a style="float:right;color:grey">X</a>
-                    <div class="shanchukongge"></div>
+                    <div class="shanchukongge">
+                        <form class="addform" action="" name="addform" id="addform" method="post">
+                            <div class="ui grid">
+                                <div class="eleven wide column">
+                                {% csrf_token %}
+                                {% for field in form  %}
+                                    <div class="field">
+                                        {{ field }}
+                                    </div>
+                                {% endfor %}
+                                </div>
+                                <div class="five wide column">
+                                    <button class="ui button" type="submit" name="button">添加</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
                     <table>
                         <thead>成员</thead>
                         <hr>
                         <tbody>
-                            {% for authorName in article.author.all %}
+                            {% for authorName in art.author.all %}
                                 <tr class="top aligned">
                                     <td style="width:35px">
                                         <a href="#">
@@ -62,7 +80,10 @@
                         </tbody>
 
                     </table>
-                    <button class="ui black button zuobian">添加成员</button>
+                    <a href="{% url 'desktop' %}">
+                        <button class="ui black button zuobian">完成</button>
+                    </a>
+
                 </div>
             </div>
 
@@ -247,9 +268,9 @@
             <!-- <textarea name="name" rows="150">无标题</textarea> -->
 
                 <div class="field">
-                    <input id="id_headline" maxlength="40" name="headline" placeholder="" type="text" required="" value="{{article.headline}}">
+                    <input id="id_headline" maxlength="40" name="headline" placeholder="" type="text" required="" value="{{art.headline}}">
 
-                    <textarea cols="40" id="id_content" name="content" placeholder="请在此输入正文" rows="50" required="">{{article.text}}</textarea>
+                    <textarea cols="40" id="id_content" name="content" placeholder="请在此输入正文" rows="50" required="">{{art.text}}</textarea>
                 </div>
 
             </form>
